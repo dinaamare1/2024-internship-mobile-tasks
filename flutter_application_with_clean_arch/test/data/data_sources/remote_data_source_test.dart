@@ -79,26 +79,28 @@ void main() {
   });
 
   group('should add elements', () {
-    const testProductModel = ProductModel(
+    const testProductModel =ProductModel(
       name: 'Product 1',
       description: 'Description of Product 1',
-      image: 'https://example.com/images/product1.png', 
+      image: 'assets/shoes.png', 
       price: 50, 
       id: '1'
     );
 
-    test('should return the created product when response code is 201', () async {
-      when(mockHttpClient.post(any,
-        headers: anyNamed('headers'),
-        body: anyNamed('body')
-      )).thenAnswer((_) async => http.Response(
-        json.encode({
-          'statusCode': 201,
-          'message': '',
-          'data': json.decode(readJson('helpers/dummy_data/dummy_product.json'))
-        }), 201)
-      );
+    const testProductjson ={
+      'name': 'Product 1',
+      'description': 'Description of Product 1',
+      'image': 'assets/shoes.png', 
+      'price': '50', 
+      'id': '1'
+    };
 
+    test('should return the created product when response code is 201', () async {
+      final byteStream = Stream.fromIterable([utf8.encode(json.encode(testProductjson))]);
+
+      final streamResponse = http.StreamedResponse(byteStream, 201);
+      when(mockHttpClient.send(any)
+      ).thenAnswer((_)async=>streamResponse);
       final result = await productRemoteDataSourceImp.addProduct(testProductModel);
 
       expect(result, equals(testProductModel));

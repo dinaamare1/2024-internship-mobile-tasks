@@ -7,7 +7,15 @@ abstract class Failure extends Equatable{
   List<Object> get props => [message];
 }
 
-abstract class ValidationFailure extends Failure {
+class ValidationFailure extends Failure {
   final String message;
   ValidationFailure(this.message) : super(message);
+}
+class ServerFailure extends Failure {
+  final String message;
+  ServerFailure(this.message) : super(message);
+}
+class CacheFailure extends Failure {
+  final String message;
+  CacheFailure(this.message) : super(message);
 }

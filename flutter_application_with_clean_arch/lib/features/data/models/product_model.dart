@@ -20,7 +20,7 @@ class ProductModel extends Product {
       name: json['name'] as String,
       description: json['description'] as String,
       image: json['image'] as String?,
-      price: json['price'] as int,
+      price: int.parse(json['price'].toString()),
       id: json['id'] as String,
     );
   }
@@ -29,9 +29,11 @@ class ProductModel extends Product {
     return {
       'name': name,
       'description': description,
-      // 'image': image,
+      'image': image,
       'price': price,
       'id': id,
     };
   }
+
+  static fromEntity(Product product) {}
 }

@@ -1,14 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
+import 'remote_contracts.dart';
 
-abstract class ProductRemoteDataSource {
-  Future<List<ProductModel>> getAllProduct();
-  Future<ProductModel> addProduct(ProductModel product);
-  Future<ProductModel> updateProduct(String id, ProductModel product);
-  Future<bool> deleteProduct(String id);
-  Future<ProductModel> getSingleProduct(String id);
-}
+
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   final http.Client client;
@@ -31,20 +27,24 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductModel> addProduct(ProductModel product) async {
-    final response = await client.post(
-      Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: json.encode(product.toJson()),
-    );
+    final uri = Uri.parse('https://g5-flutter-learning-path-be.onrender.com/api/v1/products');
 
-    if (response.statusCode == 201) {
-      final productJson = json.decode(response.body)['data'].first;
-      return ProductModel.fromJson(productJson);
-    } else {
-      throw Exception('Failed to add product');
-    }
+    final request = http.MultipartRequest('POST',uri);
+    request.fields['name'] = product.name;
+    request.fields['description'] = product.description;
+    request.fields['price'] = product.price.toString();
+    var imageFile = File(product.image!);
+    request.files.add(
+      await http.MultipartFile.
+      fromPath('image', imageFile.path));
+    final streamedResponse = await client.send(request);
+    var response = await http.Response.fromStream(streamedResponse);
+    if (response.statusCode==201){
+        final responseData = json.decode(response.body);
+        return ProductModel.fromJson(responseData);
+      }else{
+        throw Exception('server Error');
+      }
   }
 
   @override
