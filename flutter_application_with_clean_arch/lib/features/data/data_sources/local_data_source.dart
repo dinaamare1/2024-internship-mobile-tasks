@@ -105,8 +105,4 @@ class LocalDataSourceImp implements ProductLocalDataSource {
           throw Exception('could not find a response');
         }
      }
-     
-       @override
-       // TODO: implement getAllProducts
-       get getAllProducts => throw UnimplementedError(); 
 }

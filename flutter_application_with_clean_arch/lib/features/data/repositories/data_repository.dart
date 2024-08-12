@@ -23,7 +23,7 @@ class ProductRepositoryImpl implements ProductRepository {
     @override
     Future<Either<Failure, Product>> addProduct(Product product) async {
       final productModel = ProductModel.fromEntity(product);
-      if (await networkInfo.isConnected) {
+      if (await networkInfo.isConnected()) {
         try {
           final addedProduct = await remoteDataSource.addProduct(productModel);
           final cachedProducts = await localDataSource.getAllProdcuts();
@@ -40,7 +40,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
     @override
     Future<Either<Failure, bool>> deleteProduct(String id) async {
-      if (await networkInfo.isConnected) {
+      if (await networkInfo.isConnected()) {
         try {
           final success = await remoteDataSource.deleteProduct(id);
           if (success) {
@@ -61,7 +61,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
     @override
     Future<Either<Failure, Product>> getSingleProduct(String id) async {
-      if (await networkInfo.isConnected) {
+      if (await networkInfo.isConnected()) {
         try {
           final remoteProduct = await remoteDataSource.getSingleProduct(id);
           return Right(remoteProduct);
@@ -81,7 +81,7 @@ class ProductRepositoryImpl implements ProductRepository {
     @override
     Future<Either<Failure, Product>> updateProduct(String id, Product product) async {
       final productModel = ProductModel.fromEntity(product);
-      if (await networkInfo.isConnected) {
+      if (await networkInfo.isConnected()) {
         try {
           final updatedProduct = await remoteDataSource.updateProduct(id, productModel);
           final cachedProducts = await localDataSource.getAllProdcuts();
@@ -106,7 +106,7 @@ class ProductRepositoryImpl implements ProductRepository {
     
       @override
       Future<Either<Failure, List<Product>>> getAllProduct() async {
-        if (await networkInfo.isConnected) {
+        if (await networkInfo.isConnected()) {
             try {
               final remoteProducts = await remoteDataSource.getAllProduct();
               localDataSource.cachedProducts(remoteProducts);
