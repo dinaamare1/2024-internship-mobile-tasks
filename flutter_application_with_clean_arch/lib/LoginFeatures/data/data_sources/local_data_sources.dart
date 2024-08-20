@@ -36,4 +36,14 @@ class LocalDataSourcesImp implements LocalContracts {
       return Left(CacheFailure("Failed to cache user"));
     }
   }
+  
+  @override
+  Future<Either<Failure, void>> DeleteUser() {
+    if (sharedPreferences.containsKey('cachedUser')) {
+      sharedPreferences.remove('cachedUser');
+      return Future.value(Right(null));
+    } else {
+      return Future.value(Left(CacheFailure("No user found in cache")));
+    }
+  }
 }

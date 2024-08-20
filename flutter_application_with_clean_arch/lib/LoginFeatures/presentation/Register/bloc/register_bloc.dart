@@ -18,11 +18,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   FutureOr<void> _register(RegisterUser event, Emitter<RegisterState> emit) async {
     emit(RegisterLoading());
     final result = await registerUsecase.execute(event.email, event.password, event.name);
-    print(result);
     result.fold(
       (failure) => emit(RegisterFailure(message: failure.message)),
       (user) => emit(RegisterSuccess(user: user)),
-    );
-    
+    ); 
   }
 }

@@ -1,6 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart' as prefix;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../core/error/failure.dart';
+import '../../features/presentation/Home/home_page_widgets/home_page.dart';
+import '../data/data_sources/local_data_sources.dart';
+import '../data/models/user_model.dart';
 import 'Login/login_page.dart/login_page.dart';
+
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
@@ -8,15 +16,42 @@ class FirstPage extends StatefulWidget {
   _FirstPageState createState() => _FirstPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _FirstPageState extends prefix.State<FirstPage> {
+  late LocalDataSourcesImp localDataSource;
+
   @override
   void initState() {
     super.initState();
-    // Delay for 3 seconds before navigating to LoginPage
+    _initializeAndCheckUser();  
+  }
+
+  void _initializeAndCheckUser() async {
+    await _initLocalDataSource();
+    await _checkUserLoggedIn();
+  }
+
+  Future<void> _initLocalDataSource() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    localDataSource = LocalDataSourcesImp(prefs);
+  }
+
+  Future<void> _checkUserLoggedIn() async {
+    Either<Failure, UserModel> userOrFailure = await localDataSource.GetUser();
+
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+      userOrFailure.fold(
+        (failure) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        },
+        (user) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeView(name:user.name)),
+          );
+        },
       );
     });
   }

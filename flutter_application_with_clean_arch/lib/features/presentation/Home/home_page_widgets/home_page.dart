@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../LoginFeatures/presentation/Login/login_page.dart/login_page.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../domain/entities/product.dart';
 import '../../Add/add_page/add_page.dart';
@@ -68,39 +69,55 @@ class HomeView extends StatelessWidget {
 
 
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 16.0),
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(9.0),
-              border: Border.all(
-                color: const Color(0xFFAAAAAA),
-                width: 0.7,
-              ),
-            ),
-            child: Center(
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const Icon(
-                    Icons.notifications_outlined,
+          GestureDetector(
+            onTap: () {
+              BlocProvider.of<HomeBloc>(context).add(const LogoutUserEvent());
+                ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.white,
+                  content: const Text(
+                  'Logout successful',
+                  style: TextStyle(
                     color: Colors.black,
-                    size: 24.0,
                   ),
-                  Positioned(
-                    right: 3.5,
-                    top: 2,
-                    child: Container(
-                      width: 8.0,
-                      height: 8.0,
-                      decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
+                  ),
+                ),
+              );  
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: 16.0),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(9.0),
+                border: Border.all(
+                  color: const Color(0xFFAAAAAA),
+                  width: 0.7,
+                ),
+              ),
+              child: Center(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.black,
+                      size: 24.0,
                     ),
-                  ),
-                ],
+                    // Positioned(
+                    //   right: 3.5,
+                    //   top: 2,
+                    //   child: Container(
+                    //     width: 8.0,
+                    //     height: 8.0,
+                    //     decoration: const BoxDecoration(
+                    //       color: Colors.blue,
+                    //       shape: BoxShape.circle,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -118,7 +135,25 @@ class HomeView extends StatelessWidget {
               return _buildProductList(context, state.products!);
             } else if (state.status == HomePageStatusEnum.homeError) {
               return const Center(child: Text('Failed to load products'));
-            } else {
+            } else if (state.status == HomePageStatusEnum.homeInitial) {
+              Future.microtask(() {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              });
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Logging out...'),
+                  ],
+                ),
+              );
+            }
+            else {
               return const Center(child: Text('Welcome!'));
             }
           },

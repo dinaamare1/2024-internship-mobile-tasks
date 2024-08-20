@@ -13,3 +13,6 @@ final class FetchProductsEvent extends HomeEvent {
 final class RefreshProductEvent extends HomeEvent {
   const RefreshProductEvent();
 }
+final class LogoutUserEvent extends HomeEvent {
+  const LogoutUserEvent();
+}

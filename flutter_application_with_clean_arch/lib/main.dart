@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'LoginFeatures/domain/use_cases/login_usecase.dart';
+import 'LoginFeatures/domain/use_cases/logout_usecase.dart';
 import 'LoginFeatures/domain/use_cases/register_usecase.dart';
 import 'LoginFeatures/presentation/Login/bloc/login_bloc.dart';
 import 'LoginFeatures/presentation/Register/bloc/register_bloc.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => HomeBloc(
             getAllProductUseCase: locator<GetAllProductUseCase>(),
+            logoutUsecase: locator<LogoutUsecase>(),
           )..add(const FetchProductsEvent()),
         ),
         BlocProvider(create:(context) => RegisterBloc(registerUsecase: locator<RegisterUsecase>(),),),

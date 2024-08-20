@@ -6,4 +6,5 @@ import '../models/user_model.dart';
 abstract class LocalContracts {
   Future<Either<Failure, UserModel>> GetUser();
   Future<Either<Failure, UserModel>> SaveUser(UserModel user);
+  Future<Either<Failure, void>> DeleteUser();
 }

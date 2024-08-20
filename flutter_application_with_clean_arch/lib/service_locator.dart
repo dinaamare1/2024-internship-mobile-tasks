@@ -8,6 +8,7 @@ import 'LoginFeatures/data/data_sources/remote_contrats.dart';
 import 'LoginFeatures/data/data_sources/remote_data_sources.dart';
 import 'LoginFeatures/data/repository/data_repository.dart';
 import 'LoginFeatures/domain/use_cases/login_usecase.dart';
+import 'LoginFeatures/domain/use_cases/logout_usecase.dart';
 import 'LoginFeatures/domain/use_cases/register_usecase.dart';
 import 'core/network/network_info.dart';
 import 'features/data/data_sources/local_contracts.dart';
@@ -81,5 +82,5 @@ Future<void> setUp() async {
     () => LocalDataSourcesImp(locator<SharedPreferences>()),
   );
   locator.registerLazySingleton<RegisterUsecase>(()=>RegisterUsecase(userRepository: locator<UserProductRepository>()));
-
+  locator.registerLazySingleton<LogoutUsecase>(()=>LogoutUsecase(userRepository:locator<UserProductRepository>()));
 }
