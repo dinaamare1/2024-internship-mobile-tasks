@@ -6,11 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helpers/dummy_data/json_reader.dart';
 
 void main() {
-  const testProductModel = ProductModel(
+  var testProductModel = ProductModel(
     name: 'Product 1',
     description: 'Description of Product 1',
     image: 'https://example.com/images/product1.png',
-    price: 50,
+    price: 50.0,
     id: '1',
   );
 

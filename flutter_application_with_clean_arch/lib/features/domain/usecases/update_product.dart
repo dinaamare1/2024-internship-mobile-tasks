@@ -7,7 +7,7 @@ class UpdateProductUseCase{
 
   final ProductRepository productRepository;
 
-  UpdateProductUseCase(this.productRepository);
+  UpdateProductUseCase({ required this.productRepository});
 
   Future<Either<Failure,Product>> execute(String id,Product product){
     return productRepository.updateProduct(id,product);

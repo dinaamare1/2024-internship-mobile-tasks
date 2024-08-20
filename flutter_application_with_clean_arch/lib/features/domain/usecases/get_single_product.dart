@@ -11,7 +11,7 @@ class GetSingleProductUseCase {
     
     final ProductRepository productRepository;
 
-    GetSingleProductUseCase(this.productRepository);
+    GetSingleProductUseCase({ required this.productRepository});
 
     Future<Either<Failure,Product>> execute(String id){
       return productRepository.getSingleProduct(id);

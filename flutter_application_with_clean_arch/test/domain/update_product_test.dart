@@ -12,7 +12,7 @@ void main(){
 
   setUp((){
     mockProductRepository = MockProductRepository();
-    updateProductUseCase = UpdateProductUseCase(mockProductRepository);
+    updateProductUseCase = UpdateProductUseCase(productRepository:mockProductRepository);
   });
 
   const id = "1";

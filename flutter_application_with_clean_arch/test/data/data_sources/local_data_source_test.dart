@@ -21,14 +21,14 @@ void main() {
   });
 
   group('local data source implmentations', (){
-    const testProductModel = ProductModel(
+    final testProductModel = ProductModel(
       name: 'Product 1',
       description: 'Product Description',
       image: 'assets/image.png',
       price: 50,
       id: '1',
     );
-    const updatedProduct = ProductModel(
+    final updatedProduct = ProductModel(
         name: 'Updated Product',
         description: 'Updated Description',
         image: 'assets/updated_image.png',

@@ -7,7 +7,7 @@ class AddProductUseCase{
 
   final ProductRepository productRepository;
 
-  AddProductUseCase(this.productRepository);
+  AddProductUseCase({ required this.productRepository});
 
   Future<Either<Failure,Product>> execute(Product product){
       return productRepository.addProduct(product);

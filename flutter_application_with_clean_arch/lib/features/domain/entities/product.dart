@@ -3,15 +3,15 @@ class Product extends Equatable {
   final String name;
   final String description;
   final String? image;
-  final int price;
+  final double price;
   final String id;
   const Product(
     {
       required this.name, 
       required this.description,
-      required this.image, 
+      this.image, 
       required this.price,
-      required this.id
+      this.id = ''
     }
     );
   @override

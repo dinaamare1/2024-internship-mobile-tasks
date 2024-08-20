@@ -13,7 +13,7 @@ void main(){
 
   setUp((){
     mockProductRepository = MockProductRepository();
-    getAllProductUseCase = GetAllProductUseCase(mockProductRepository);
+    getAllProductUseCase = GetAllProductUseCase(productRepository:mockProductRepository);
   });
 
   const products = <Product>[];

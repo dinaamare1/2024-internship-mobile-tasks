@@ -5,8 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/product_model.dart';
 import 'local_contracts.dart';
 
-
-
 class LocalDataSourceImp implements ProductLocalDataSource {
 
    final SharedPreferences sharedPreferences;
@@ -67,7 +65,7 @@ class LocalDataSourceImp implements ProductLocalDataSource {
       }
       return listOfCachedProducts;
     }
-   
+    
      @override
     ProductModel getSingleProduct(String id) {
       var response = sharedPreferences.getString(Key);
@@ -84,7 +82,8 @@ class LocalDataSourceImp implements ProductLocalDataSource {
         throw Exception('no response');
       }
      }
-   
+    //what is this doing
+    
      @override
      Future<ProductModel> updateProduct(String id,ProductModel updatedProduct) async {
         var response = sharedPreferences.getString(Key);

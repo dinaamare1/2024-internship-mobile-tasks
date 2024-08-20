@@ -13,7 +13,7 @@ void main(){
 
   setUp((){
     mockProductRepository = MockProductRepository();
-    addProductUseCase = AddProductUseCase(mockProductRepository);
+    addProductUseCase = AddProductUseCase(productRepository:mockProductRepository);
   });
   const product = Product(
     name: "jsdjfsf",

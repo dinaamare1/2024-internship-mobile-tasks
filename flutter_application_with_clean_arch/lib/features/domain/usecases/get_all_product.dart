@@ -7,7 +7,7 @@ class GetAllProductUseCase{
 
   final ProductRepository productRepository;
 
-  GetAllProductUseCase(this.productRepository);
+  GetAllProductUseCase({ required this.productRepository});
 
   Future<Either<Failure,List<Product>>> execute()
   {

@@ -25,7 +25,7 @@ void main() {
       'price': 50,
       'id': '1'
     };
-    const testProductModel = ProductModel(
+    final testProductModel = ProductModel(
       name: 'Product 1',
       description: 'Product Description',
       image: 'https://example.com/images/updated_product.png',
@@ -79,7 +79,7 @@ void main() {
   });
 
   group('should add elements', () {
-    const testProductModel =ProductModel(
+    final testProductModel =ProductModel(
       name: 'Product 1',
       description: 'Description of Product 1',
       image: 'assets/shoes.png', 
@@ -117,7 +117,7 @@ void main() {
   });
 
   group('should update elements', () {
-    const testProductModel = ProductModel(
+    final testProductModel = ProductModel(
       name: 'Updated Product',
       description: 'Updated Description',
       image: 'https://example.com/images/updated_product.png',
