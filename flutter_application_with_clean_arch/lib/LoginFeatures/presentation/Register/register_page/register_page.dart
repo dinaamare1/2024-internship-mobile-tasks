@@ -62,7 +62,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           icon: Icon(Icons.arrow_back_ios),
                           color: buttonColor,
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
                           },
                         ),
                         Spacer(),
@@ -290,13 +293,23 @@ class _RegisterPageState extends State<RegisterPage> {
                           width: buttonWidth,
                           child: ElevatedButton(
                             onPressed: _agreedToTerms ? () {
-                              context.read<RegisterBloc>().add(
-                                RegisterUser(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  name: _nameController.text,
-                                ),
+                              if (_confirmPasswordController.value  == _passwordController){
+                                context.read<RegisterBloc>().add(
+                                  RegisterUser(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    name: _nameController.text,
+                                  ),
+                            
                               );
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Passowrd did not much', style: TextStyle(color: Colors.black,)),
+                                              backgroundColor: Colors.white,));
+
+                              }
+                      
                             } : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: buttonColor,

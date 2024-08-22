@@ -26,8 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: SizedBox(
             width: screenWidth,
             child: Padding(
@@ -227,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                          SizedBox(height: screenWidth * 0.1),
+                          SizedBox(height: screenWidth * 0.3),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -262,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-        ),
+        
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../LoginFeatures/presentation/Login/login_page.dart/login_page.dart';
 import '../../../../core/constants/constants.dart';
@@ -16,6 +17,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final formatter = DateFormat('MMMM d, yyyy');
+    final formattedDate = formatter.format(now);
+
+    // Check if name is not null and then add the event.
+    if (name != null) {
+      context.read<HomeBloc>().add(GetName(name: name!));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -33,9 +43,9 @@ class HomeView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "July 14, 2023",
-                    style: TextStyle(
+                  Text(
+                    formattedDate,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
                       color: Color(0xFFAAAAAA),
@@ -50,13 +60,17 @@ class HomeView extends StatelessWidget {
                           fontSize: 15,
                         ),
                       ),
-                      Text(
-                        name ?? "User",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                        ),
-                      ),
+                      BlocBuilder<HomeBloc, HomePageState>(
+                        builder: (context, state) {
+                          return Text(
+                            state.name?.toUpperCase() ?? "User",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ],
@@ -64,25 +78,27 @@ class HomeView extends StatelessWidget {
             ),
           ],
         ),
-        
         automaticallyImplyLeading: false,
-
-
         actions: [
           GestureDetector(
             onTap: () {
               BlocProvider.of<HomeBloc>(context).add(const LogoutUserEvent());
-                ScaffoldMessenger.of(context).showSnackBar(
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.white,
                   content: const Text(
-                  'Logout successful',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                    'Logout successful',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-              );  
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(right: 16.0),
@@ -95,28 +111,11 @@ class HomeView extends StatelessWidget {
                   width: 0.7,
                 ),
               ),
-              child: Center(
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    const Icon(
-                      Icons.logout_outlined,
-                      color: Colors.black,
-                      size: 24.0,
-                    ),
-                    // Positioned(
-                    //   right: 3.5,
-                    //   top: 2,
-                    //   child: Container(
-                    //     width: 8.0,
-                    //     height: 8.0,
-                    //     decoration: const BoxDecoration(
-                    //       color: Colors.blue,
-                    //       shape: BoxShape.circle,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+              child: const Center(
+                child: Icon(
+                  Icons.logout_outlined,
+                  color: Colors.black,
+                  size: 24.0,
                 ),
               ),
             ),
@@ -135,25 +134,9 @@ class HomeView extends StatelessWidget {
               return _buildProductList(context, state.products!);
             } else if (state.status == HomePageStatusEnum.homeError) {
               return const Center(child: Text('Failed to load products'));
-            } else if (state.status == HomePageStatusEnum.homeInitial) {
-              Future.microtask(() {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
-              });
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 16),
-                    Text('Logging out...'),
-                  ],
-                ),
-              );
-            }
-            else {
+            } else {
+              // Trigger fetch products event if no products are loaded
+              BlocProvider.of<HomeBloc>(context).add(const FetchProductsEvent());
               return const Center(child: Text('Welcome!'));
             }
           },
@@ -245,8 +228,7 @@ class HomeView extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => DetailPage(
                         product: product,
-                        // products: products,
-                        index: product.id
+                        index: product.id,
                       ),
                     ),
                   );
@@ -292,7 +274,6 @@ class HomeView extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 10.0),
-                            
                           ],
                         ),
                       ),

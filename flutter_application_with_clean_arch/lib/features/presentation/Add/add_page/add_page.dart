@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'package:formz/formz.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../bloc/add_bloc.dart';
 import '../bloc/add_event.dart';
@@ -50,7 +49,7 @@ class _AddPageState extends State<AddPage> {
       }
     } else if (status.isDenied) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Permission denied to access gallery")),
+        const SnackBar(content: Text("Permission denied access gallery")),
       );
     } else if (status.isPermanentlyDenied) {
       openAppSettings();
@@ -67,15 +66,11 @@ class _AddPageState extends State<AddPage> {
           child: BlocConsumer<AddBloc, AddState>(
             listener: (context, state) {
               if (state.status.isInProgress) {
-                // Optionally show a loading indicator
               } else if (state.status.isSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Product added successfully!')),
                 );
-                // Fetch the updated list of products
                 context.read<HomeBloc>().add(const FetchProductsEvent());
-
-                // Navigate back to the previous screen
                 Navigator.of(context).pop();
               } else if (state.status.isFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -96,9 +91,9 @@ class _AddPageState extends State<AddPage> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          icon: const Icon(Icons.arrow_back_ios_rounded, size: 20),
+                          icon: const Icon(Icons.arrow_back_ios_rounded, size: 20, color: Colors.blue),
                         ),
-                        const SizedBox(width: 100),
+                        const SizedBox(width: 65),
                         const Text(
                           "Add Products",
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
@@ -111,7 +106,7 @@ class _AddPageState extends State<AddPage> {
                     child: Center(
                       child: Container(
                         width: double.infinity,
-                        height: 190,
+                        height: 280,
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(8.0),
@@ -143,11 +138,11 @@ class _AddPageState extends State<AddPage> {
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _nameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Name',
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      border: const OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
                     ),
                     onChanged: (value) {
                       context.read<AddBloc>().add(ProductNameChanged(value));
@@ -156,28 +151,15 @@ class _AddPageState extends State<AddPage> {
                     validator: (_) {
                       return state.name.isNotValid ? 'Name cannot be empty' : null;
                     },
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _categoryController,
-                    decoration: InputDecoration(
-                      labelText: 'Category',
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      border: const OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      // Handle category change if needed
-                    },
-                  ),
+                  ),                 
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _priceController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Price',
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      border: const OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
                     ),
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -194,11 +176,11 @@ class _AddPageState extends State<AddPage> {
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _descriptionController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Description',
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      border: const OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
                     ),
                     maxLines: 5,
                     onChanged: (value) {
@@ -209,7 +191,7 @@ class _AddPageState extends State<AddPage> {
                       return state.description.isNotValid ? 'Description cannot be empty' : null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 50),
                   ElevatedButton(
                     onPressed: () {
                       context.read<AddBloc>().add(const AddProductSubmitted());
@@ -231,25 +213,6 @@ class _AddPageState extends State<AddPage> {
                           ),
                   ),
                   const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle delete functionality if needed
-                    },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      side: const BorderSide(
-                        color: Colors.red,
-                        width: 1,
-                      ),
-                    ),
-                    child: const Text(
-                      "DELETE",
-                      style: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                  ),
                 ],
               );
             },

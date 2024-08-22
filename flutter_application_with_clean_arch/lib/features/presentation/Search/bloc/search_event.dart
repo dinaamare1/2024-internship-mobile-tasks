@@ -1,4 +1,6 @@
-part of 'search_bloc.dart';
+// lib/features/search/bloc/search_event.dart
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class SearchEvent extends Equatable {
   const SearchEvent();
@@ -16,15 +18,6 @@ class SearchProducts extends SearchEvent {
   List<Object> get props => [query];
 }
 
-class InitializeSearch extends SearchEvent {
-  final List<Product> products;
-
-  const InitializeSearch({required this.products});
-
-  @override
-  List<Object> get props => [products];
-}
-
 class UpdatePriceFilter extends SearchEvent {
   final RangeValues priceRange;
 
@@ -33,3 +26,5 @@ class UpdatePriceFilter extends SearchEvent {
   @override
   List<Object> get props => [priceRange];
 }
+
+class RefreshSearchEvent extends SearchEvent {}

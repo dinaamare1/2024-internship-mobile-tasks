@@ -16,12 +16,15 @@ class HomeBloc extends Bloc<HomeEvent, HomePageState> {
      on<FetchProductsEvent>(_fetch);
      on<RefreshProductEvent>(_fetch);
      on<LogoutUserEvent>(_logout);
+     on<GetName>(_getname);
   }
   
   Future<void> _fetch(HomeEvent event, Emitter<HomePageState> emit) async {
   emit(state.copyWith(status: HomePageStatusEnum.homeLoading));
 
+
   final result = await getAllProductUseCase.execute();
+  print(result);
    
   result.fold(
     (failure) => emit(state.copyWith(status: HomePageStatusEnum.homeError)),
@@ -36,5 +39,7 @@ class HomeBloc extends Bloc<HomeEvent, HomePageState> {
       (_) => emit(state.copyWith(status: HomePageStatusEnum.homeInitial)),
     );
   }
-
+  FutureOr<void> _getname(GetName event, Emitter<HomePageState> emit) {
+    emit(state.copyWith(name: event.name));
+  }
 }

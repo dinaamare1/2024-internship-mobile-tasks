@@ -19,8 +19,7 @@ class LocalDataSourceImp implements ProductLocalDataSource {
       bool response = await sharedPreferences.setString(Key, jsonMap);
       if (response == false){
         throw Exception('no cached element');
-        // return false;
-        
+       
       }
       return true;
 

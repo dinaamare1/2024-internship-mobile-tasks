@@ -101,7 +101,7 @@ class _UpdatePageState extends State<UpdatePage> {
                   Center(
                     child: Container(
                       width: 366,
-                      height: 190,
+                      height: 230,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
@@ -141,36 +141,6 @@ class _UpdatePageState extends State<UpdatePage> {
                             onChanged: (value ) => context
                                 .read<UpdateBloc>()
                                 .add(ProductNameChanged(value)),
-                            decoration: InputDecoration(
-                              fillColor: Colors.grey[200],
-                              filled: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
-                                ),
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Category:',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        SizedBox(
-                          height: 50,
-                          child: TextField(
                             decoration: InputDecoration(
                               fillColor: Colors.grey[200],
                               filled: true,
@@ -233,7 +203,7 @@ class _UpdatePageState extends State<UpdatePage> {
                         ),
                         const SizedBox(height: 8.0),
                         SizedBox(
-                          height: 140,
+                          height: 200,
                           child: TextField(
                             controller: _descriptionController,
                             onChanged: (value) => context
@@ -255,10 +225,10 @@ class _UpdatePageState extends State<UpdatePage> {
                                 borderSide: BorderSide(color: Colors.blue),
                               ),
                             ),
-                            maxLines: 5,
+                            maxLines: 10,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 40),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -274,9 +244,12 @@ class _UpdatePageState extends State<UpdatePage> {
                                     ),
                                   );
                             },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
                             child: const Text(
                               'Update Product',
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 16, color: Colors.white),
                             ),
                           ),
                         ),

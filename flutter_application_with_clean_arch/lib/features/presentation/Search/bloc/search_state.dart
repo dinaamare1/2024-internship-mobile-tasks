@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/product.dart'; // Assuming you have a Product model
+import '../../../domain/entities/product.dart';
 
 abstract class SearchState extends Equatable {
   const SearchState();

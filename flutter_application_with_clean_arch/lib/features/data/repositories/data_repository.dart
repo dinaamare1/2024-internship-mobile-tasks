@@ -103,7 +103,6 @@ class ProductRepositoryImpl implements ProductRepository {
         }
       }
     }
-    
       @override
       Future<Either<Failure, List<Product>>> getAllProduct() async {
         if (await networkInfo.isConnected()) {

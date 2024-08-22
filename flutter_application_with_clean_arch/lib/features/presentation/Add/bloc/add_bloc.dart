@@ -62,7 +62,7 @@ class AddBloc extends Bloc<AddEvent, AddState> {
 
     result.fold(
       (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
-      (product) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
+      (product) => emit(state.copyWith(status: FormzSubmissionStatus.success )),
     );
   }
 }

@@ -77,8 +77,8 @@ class _FirstPageState extends prefix.State<FirstPage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFF3F51F3).withOpacity(0.4), // 40% opacity
-                    Color(0xFF3F51F3).withOpacity(1.0), // 100% opacity
+                    Color(0xFF3F51F3).withOpacity(0.4), 
+                    Color(0xFF3F51F3).withOpacity(1.0),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

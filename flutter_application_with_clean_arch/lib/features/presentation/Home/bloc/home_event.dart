@@ -16,3 +16,7 @@ final class RefreshProductEvent extends HomeEvent {
 final class LogoutUserEvent extends HomeEvent {
   const LogoutUserEvent();
 }
+final class GetName extends HomeEvent {
+  final String name;
+  const GetName({required this.name});
+}

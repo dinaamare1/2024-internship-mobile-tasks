@@ -1,4 +1,3 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'LoginFeatures/domain/use_cases/login_usecase.dart';
@@ -21,15 +20,16 @@ import 'service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await setUp(); 
+  await setUp();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-    final String homeRoute = '/';
-    final String addProductRoute = '/add';
-    final String updateProductRoute = '/update';
-    final String detailsProductRoute = '/details';
+  final String homeRoute = '/';
+  final String addProductRoute = '/add';
+  final String updateProductRoute = '/update';
+  final String detailsProductRoute = '/details';
 
   const MyApp({super.key});
 
@@ -43,38 +43,23 @@ class MyApp extends StatelessWidget {
             logoutUsecase: locator<LogoutUsecase>(),
           )..add(const FetchProductsEvent()),
         ),
-        BlocProvider(create:(context) => RegisterBloc(registerUsecase: locator<RegisterUsecase>(),),),
+        BlocProvider(create: (context) => RegisterBloc(registerUsecase: locator<RegisterUsecase>())),
+        BlocProvider(create: (context) => AddBloc(addProductUseCase: locator<AddProductUseCase>())),
+        BlocProvider(create: (context) => UpdateBloc(updateProductUseCase: locator<UpdateProductUseCase>())),
+        BlocProvider(create: (context) => DetailsBloc(
+            getSingleProductUseCase: locator<GetSingleProductUseCase>(),
+            deleteProductUseCase: locator<DeleteProductUseCase>())),
         BlocProvider(
-          create: (context) => AddBloc(
-            addProductUseCase: locator<AddProductUseCase>(),
-          ),
+          create: (context) {
+            final products = context.read<HomeBloc>().state.products!;
+            return SearchBloc(allProducts: products);
+          },
         ),
-        BlocProvider(
-          create: (context) => UpdateBloc(
-            updateProductUseCase: locator<UpdateProductUseCase>(),
-        ),),
-          BlocProvider(
-          create: (context) => DetailsBloc(
-            getSingleProductUseCase: locator<GetSingleProductUseCase>(), deleteProductUseCase: locator<DeleteProductUseCase>(),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => SearchBloc(initialProducts: []),
-          ),
-        BlocProvider(
-          create: (context) => LoginBloc(
-            loginUsecase: locator<LoginUsecase>(),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => RegisterBloc(
-            registerUsecase: locator<RegisterUsecase>(),
-          ),
-        ),
+        BlocProvider(create: (context) => LoginBloc(loginUsecase: locator<LoginUsecase>())),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: FirstPage(),  
+        home: FirstPage(),
       ),
     );
   }
